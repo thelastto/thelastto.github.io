@@ -161,7 +161,7 @@
     <link itemprop="mainEntityOfPage" href="https://thelastto.github.io/2020/04/28/apply-call-bind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpeg">
       <meta itemprop="name" content="徐漂漂">
       <meta itemprop="description" content="">
     </span>
@@ -189,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-29 00:05:02" itemprop="dateModified" datetime="2020-04-29T00:05:02+08:00">2020-04-29</time>
+                <time title="修改时间：2020-04-29 00:12:38" itemprop="dateModified" datetime="2020-04-29T00:12:38+08:00">2020-04-29</time>
               </span>
 
           
@@ -203,22 +203,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><ul>
+          <h1 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h1><ul>
 <li>调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.apply(A, arguments);即 A 对象应用 B 对象的方法。</li>
 <li>要注意的是第一个参数，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，而其他原始值则会被相应的包装对象（wrapper object）所替代。</li>
 </ul>
-<h3 id="如何实现一个apply"><a href="#如何实现一个apply" class="headerlink" title="如何实现一个apply"></a>如何实现一个apply</h3><p>回顾一下 apply 的效果，我们可以大致按以下思路走</p>
+<h2 id="如何实现一个apply"><a href="#如何实现一个apply" class="headerlink" title="如何实现一个apply"></a>如何实现一个apply</h2><p>回顾一下 apply 的效果，我们可以大致按以下思路走</p>
 <ol>
 <li>实现第一个参数的功能，改变 this 指向</li>
 <li>实现第二个参数的功能。第二个参数是作为调用函数的参数</li>
 <li>返回值：使用调用者提供的 this 值和参数调用该函数的返回值。若该方法没有返回值，则返回 undefined。</li>
 </ol>
 <p>接下来，我们按以上思路来实现一下。</p>
-<h4 id="第一步，绑定-this"><a href="#第一步，绑定-this" class="headerlink" title="第一步，绑定 this"></a>第一步，绑定 this</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f.apply(o);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与下面代码的功能类似（假设对象o中预先不存在名为m的属性）。</span></span><br><span class="line">o.m=f; <span class="comment">//将f存储为o的临时方法</span></span><br><span class="line">o.m(); <span class="comment">//调用它，不传入参数</span></span><br><span class="line"><span class="keyword">delete</span> o.m;<span class="comment">//将临时方法删除</span></span><br></pre></td></tr></table></figure>
+<h3 id="第一步，绑定-this"><a href="#第一步，绑定-this" class="headerlink" title="第一步，绑定 this"></a>第一步，绑定 this</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f.apply(o);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与下面代码的功能类似（假设对象o中预先不存在名为m的属性）。</span></span><br><span class="line">o.m=f; <span class="comment">//将f存储为o的临时方法</span></span><br><span class="line">o.m(); <span class="comment">//调用它，不传入参数</span></span><br><span class="line"><span class="keyword">delete</span> o.m;<span class="comment">//将临时方法删除</span></span><br></pre></td></tr></table></figure>
 <p>(以上代码摘录自犀牛书)<br>依样画葫芦，我们可以这么写：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line">    context.__fn()</span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="第二步，给函数传递参数"><a href="#第二步，给函数传递参数" class="headerlink" title="第二步，给函数传递参数"></a>第二步，给函数传递参数</h4><p>接下来我们想办法实现一下 apply 的第二个参数。其实我最快想到的是 ES6 的方法。用<code>...</code> 直接展开就行了。不过 apply 才 ES3😂，还是再想想老的办法吧。</p>
+<h3 id="第二步，给函数传递参数"><a href="#第二步，给函数传递参数" class="headerlink" title="第二步，给函数传递参数"></a>第二步，给函数传递参数</h3><p>接下来我们想办法实现一下 apply 的第二个参数。其实我最快想到的是 ES6 的方法。用<code>...</code> 直接展开就行了。不过 apply 才 ES3😂，还是再想想老的办法吧。</p>
 <p>难点是这个数组的长度是不确定的，也就是说我们没办法很准确地给函数一个个传参。我们所能做的处理也就是把<code>arguments</code>转成字符串形式<code>&#39;arguments[1], arguments[2], ...&#39;</code>。那么如何让字符串能运行起来呢？？答案就是 <code>eval</code>！</p>
 <p>稍稍总结一下, 目前想到的 2 种方法</p>
 <blockquote>
@@ -230,20 +230,20 @@
 <p>以下是第二种思路的代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, others</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="comment">// args: 'others[0], others[1], others[2], ...'</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = others.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'others['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="第三步，返回值"><a href="#第三步，返回值" class="headerlink" title="第三步，返回值"></a>第三步，返回值</h4><p>返回函数调用后的结果就行：</p>
+<h3 id="第三步，返回值"><a href="#第三步，返回值" class="headerlink" title="第三步，返回值"></a>第三步，返回值</h3><p>返回函数调用后的结果就行：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, others</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="comment">// args: 'others[0], others[1], others[2], ...'</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = others.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'others['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="call"><a href="#call" class="headerlink" title="call"></a>call</h2><ul>
+<h1 id="call"><a href="#call" class="headerlink" title="call"></a>call</h1><ul>
 <li><p>和 apply 的作用是一样的，只是 call() 方法接受的是一个参数列表，而 apply() 方法接受的是一个包含多个参数的数组。</p>
 </li>
 <li><p>例如 <code>func.apply(0, [1,2])</code> 相当于<code>func.call(0, 1, 2)</code></p>
 </li>
 </ul>
-<h3 id="实现一个-call"><a href="#实现一个-call" class="headerlink" title="实现一个 call"></a>实现一个 call</h3><p>思路和 apply 是一样的。唯一区别就在于参数形式。我们按照 call 的要求来处理参数就可以了：</p>
+<h2 id="实现一个-call"><a href="#实现一个-call" class="headerlink" title="实现一个 call"></a>实现一个 call</h2><p>思路和 apply 是一样的。唯一区别就在于参数形式。我们按照 call 的要求来处理参数就可以了：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="comment">// 我们从 arguments[1] 开始拼就好了</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'arguments['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>我们常将 bind 和以上两个方法区分开，是因为 bind 是 ECMAScript 5 中的方法，且除了将函数绑定至一个对象外还多了一些特点。</p>
+<h1 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h1><p>我们常将 bind 和以上两个方法区分开，是因为 bind 是 ECMAScript 5 中的方法，且除了将函数绑定至一个对象外还多了一些特点。</p>
 <ul>
 <li>也是将函数绑定至一个对象</li>
 <li>参数和call一样，但返回的是一个新的函数</li>
@@ -322,6 +322,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="徐漂漂"
+      src="/images/avatar.jpeg">
   <p class="site-author-name" itemprop="name">徐漂漂</p>
   <div class="site-description" itemprop="description"></div>
 </div>
