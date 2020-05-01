@@ -270,7 +270,7 @@
 
 <h3 id="再进一步，确保-fn-不存在"><a href="#再进一步，确保-fn-不存在" class="headerlink" title="再进一步，确保 __fn 不存在"></a>再进一步，确保 __fn 不存在</h3><p>我们之前的代码都是建立在 <code>__fn</code> 不存在的情况下，那么万一存在呢？因此我们接下来就要找一个 <code>context</code> 中没有存在过的属性。<br>🤔我们很快可以想到 ES6 的 symbol。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 像这样</span></span><br><span class="line"><span class="keyword">var</span> __fn = <span class="keyword">new</span> <span class="built_in">Symbol</span>()</span><br><span class="line">context[__fn] = <span class="keyword">this</span></span><br></pre></td></tr></table></figure>
-<p>🤔如果不用 ES6，那么另一种方法，是根据 <a href="https://juejin.im/post/5bf6c79bf265da6142738b29#heading-4" target="_blank" rel="noopener">这篇文章</a>中提到的，自己用 Math.random() 模拟实现独一无二的 key。面试时可以直接用生成时间戳即可。</p>
+<p>🤔如果不用 ES6，那么另一种方法，是根据 <a href="https://juejin.im/post/5bf6c79bf265da6142738b29#heading-4">这篇文章</a>中提到的，自己用 Math.random() 模拟实现独一无二的 key。面试时可以直接用生成时间戳即可。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成 UUID 通用唯一识别码</span></span><br><span class="line"><span class="comment">// 大概生成 这样一串 '18efca2d-6e25-42bf-a636-30b8f9f2de09'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateUUID</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i, random;</span><br><span class="line">    <span class="keyword">var</span> uuid = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        random = <span class="built_in">Math</span>.random() * <span class="number">16</span> | <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (i === <span class="number">8</span> || i === <span class="number">12</span> || i === <span class="number">16</span> || i === <span class="number">20</span>) &#123;</span><br><span class="line">            uuid += <span class="string">'-'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        uuid += (i === <span class="number">12</span> ? <span class="number">4</span> : (i === <span class="number">16</span> ? (random &amp; <span class="number">3</span> | <span class="number">8</span>) : random))</span><br><span class="line">            .toString(<span class="number">16</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> uuid;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 简单实现</span></span><br><span class="line"><span class="comment">// '__' + new Date().getTime();</span></span><br></pre></td></tr></table></figure>
 <p>如果这个key万一这对象中还是有，为了保险起见，可以做一次缓存操作(就是先把之前的值保存起来)</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 像这样</span></span><br><span class="line"><span class="keyword">var</span> originalvalue = context.__fn</span><br><span class="line"><span class="keyword">var</span> hasOriginalValue = context.hasOwnProperty(<span class="string">'__fn'</span>)</span><br><span class="line">context.__fn = <span class="keyword">this</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(hasOriginalValue)&#123;</span><br><span class="line">    context.__fn = originalvalue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -309,13 +309,13 @@
 <blockquote>
 <p>对于 <code>var gioia = new Person()</code> 来说<br>使用 new 时，this 会指向 gioia，并且 gioia 是 Person 的实例。<br>因此，如果 <code>this instance Person</code>，就说明是 new 调用的</p>
 </blockquote>
-<p>new 这一部分这里先不展开讲，有兴趣的可以看一下 <a href="https://github.com/mqyqingfeng/Blog/issues/13" target="_blank" rel="noopener">JavaScript深入之new的模拟实现</a><br>接下来我们可以写代码了：</p>
+<p>new 这一部分这里先不展开讲，有兴趣的可以看一下 <a href="https://github.com/mqyqingfeng/Blog/issues/13">JavaScript深入之new的模拟实现</a><br>接下来我们可以写代码了：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 bind 函数从第二个参数到最后一个参数</span></span><br><span class="line">    <span class="keyword">var</span> initialArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回一个绑定好 this 的新函数</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Bound</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 这个是调用新函数时传入的参数</span></span><br><span class="line">        <span class="keyword">var</span> boundArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        <span class="comment">// 最终的参数应该是初始参数+新函数的参数</span></span><br><span class="line">        <span class="keyword">return</span> self.apply(<span class="keyword">this</span> instance Bound ? <span class="keyword">this</span> : context, args.concat(bindArgs));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Bound.prototype = <span class="keyword">this</span>.prototype</span><br><span class="line">    <span class="keyword">return</span> Bound</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
-<li><a href="https://juejin.im/post/5bf6c79bf265da6142738b29" target="_blank" rel="noopener">面试官问：能否模拟实现JS的call和apply方法</a></li>
-<li><a href="https://juejin.im/post/5907eb99570c3500582ca23c" target="_blank" rel="noopener">JavaScript深入之call和apply的模拟实现</a></li>
-<li><a href="https://github.com/mqyqingfeng/Blog/issues/12" target="_blank" rel="noopener">JavaScript深入之bind的模拟实现</a></li>
+<li><a href="https://juejin.im/post/5bf6c79bf265da6142738b29">面试官问：能否模拟实现JS的call和apply方法</a></li>
+<li><a href="https://juejin.im/post/5907eb99570c3500582ca23c">JavaScript深入之call和apply的模拟实现</a></li>
+<li><a href="https://github.com/mqyqingfeng/Blog/issues/12">JavaScript深入之bind的模拟实现</a></li>
 </ul>
 
     </div>
@@ -334,6 +334,13 @@
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/30/miniwebpack/" rel="next" title="写一个简易的打包工具">
+      写一个简易的打包工具 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -408,12 +415,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -454,6 +461,15 @@
   </span>
   <span class="author" itemprop="copyrightHolder">徐漂漂</span>
 </div>
+
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
 
         
 

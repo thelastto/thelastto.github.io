@@ -20,30 +20,35 @@
     var CONFIG = {"hostname":"thelastto.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="徐漂漂">
-<meta property="og:url" content="https://thelastto.github.io/index.html">
+  <meta name="description" content="前言不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。因此，我阅读了 miniwebpack 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具 主要思路 代码处理。我们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写一个简易的打包工具">
+<meta property="og:url" content="https://thelastto.github.io/2020/04/30/miniwebpack/index.html">
 <meta property="og:site_name" content="徐漂漂">
+<meta property="og:description" content="前言不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。因此，我阅读了 miniwebpack 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具 主要思路 代码处理。我们">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-30T03:37:28.000Z">
+<meta property="article:modified_time" content="2020-05-01T06:59:51.577Z">
 <meta property="article:author" content="徐漂漂">
-<meta property="article:tag" content="徐漂漂">
-<meta property="article:tag" content=" gioia">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="打包">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://thelastto.github.io/">
+<link rel="canonical" href="https://thelastto.github.io/2020/04/30/miniwebpack/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>徐漂漂</title>
+  <title>写一个简易的打包工具 | 徐漂漂</title>
   
 
 
@@ -180,9 +185,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -198,10 +204,9 @@
       <meta itemprop="name" content="徐漂漂">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/30/miniwebpack/" class="post-title-link" itemprop="url">写一个简易的打包工具</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          写一个简易的打包工具
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -231,7 +236,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。<br>于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。<br>因此，我阅读了 <a href="https://github.com/ronami/minipack/blob/master/src/minipack.js">miniwebpack</a> 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。<br>于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。<br>因此，我阅读了 <a href="https://github.com/ronami/minipack/blob/master/src/minipack.js">miniwebpack</a> 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具</p>
 <h1 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h1><ol>
 <li>代码处理。我们平常写代码的时候，用的可能是ES6、ES7等高版本的语法，我们需要将它们转换成浏览器能运行的语法</li>
 <li>打包。需要根据一个 entry 来输出一个 output，我们通过维护一个依赖关系图来解决这个问题</li>
@@ -344,173 +349,42 @@ F --> |生成最终代码| G[output]</pre>
 <li>自执行</li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">modules</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">require</span>(<span class="params">id</span>) </span>&#123; </span><br><span class="line">    <span class="comment">// 从 modules 拿到 【执行函数】和【mapping】</span></span><br><span class="line">    <span class="keyword">const</span> [fn, mapping] = modules[id];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自己实现的 require，可以根据相对路径加载依赖</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">localRequire</span>(<span class="params">name</span>) </span>&#123; </span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">require</span>(mapping[name]); </span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">// // 自己实现的 module 和 exports</span></span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">module</span> = &#123; <span class="attr">exports</span> : &#123;&#125; &#125;;</span><br><span class="line"></span><br><span class="line">    fn(localRequire, <span class="built_in">module</span>, <span class="built_in">module</span>.exports); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调用入口文件</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line">&#125;)(modules)</span><br></pre></td></tr></table></figure>
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/webpack/" rel="tag"># webpack</a>
+              <a href="/tags/%E6%89%93%E5%8C%85/" rel="tag"># 打包</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://thelastto.github.io/2020/04/28/apply-call-bind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/25566082?s=60&u=210e9c7458d664c0b013b39126441efb454f85fe&v=4">
-      <meta itemprop="name" content="徐漂漂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐漂漂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/28/apply-call-bind/" class="post-title-link" itemprop="url">apply/call/bind 一网打尽</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-28 22:58:26" itemprop="dateCreated datePublished" datetime="2020-04-28T22:58:26+08:00">2020-04-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-29 23:39:51" itemprop="dateModified" datetime="2020-04-29T23:39:51+08:00">2020-04-29</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>首先，这三个方法是用来改变 this 指向的，接下来我们看一下它们的异同。</p>
-<h1 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h1><ul>
-<li>调用一个对象的一个方法，用另一个对象替换当前对象。例如：<code>B.apply(A, arguments)</code>; 即 A 对象应用 B 对象的方法。</li>
-<li>要注意的是第一个参数，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，而其他原始值则会被相应的包装对象（wrapper object）所替代。</li>
-</ul>
-<h2 id="如何实现一个apply"><a href="#如何实现一个apply" class="headerlink" title="如何实现一个apply"></a>如何实现一个apply</h2><p>回顾一下 apply 的效果，我们可以大致按以下思路走</p>
-<ol>
-<li>实现第一个参数的功能，改变 this 指向</li>
-<li>实现第二个参数的功能。第二个参数是作为调用函数的参数</li>
-<li>返回值：使用调用者提供的 this 值和参数调用该函数的返回值。若该方法没有返回值，则返回 undefined。</li>
-</ol>
-<p>接下来，我们按以上思路来实现一下。</p>
-<h3 id="第一步，绑定-this"><a href="#第一步，绑定-this" class="headerlink" title="第一步，绑定 this"></a>第一步，绑定 this</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f.apply(o);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与下面代码的功能类似（假设对象o中预先不存在名为m的属性）。</span></span><br><span class="line">o.m=f; <span class="comment">//将f存储为o的临时方法</span></span><br><span class="line">o.m(); <span class="comment">//调用它，不传入参数</span></span><br><span class="line"><span class="keyword">delete</span> o.m;<span class="comment">//将临时方法删除</span></span><br></pre></td></tr></table></figure>
-<p>(以上代码摘录自犀牛书)<br>依样画葫芦，我们可以这么写：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line">    context.__fn()</span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="第二步，给函数传递参数"><a href="#第二步，给函数传递参数" class="headerlink" title="第二步，给函数传递参数"></a>第二步，给函数传递参数</h3><p>接下来我们想办法实现一下 apply 的第二个参数。其实我最快想到的是 ES6 的方法。用<code>...</code> 直接展开就行了。不过 apply 才 ES3😂，还是再想想老的办法吧。</p>
-<p>难点是这个数组的长度是不确定的，也就是说我们没办法很准确地给函数一个个传参。我们所能做的处理也就是把<code>arguments</code>转成字符串形式<code>&#39;arguments[1], arguments[2], ...&#39;</code>。那么如何让字符串能运行起来呢？？答案就是 <code>eval</code>！</p>
-<p>稍稍总结一下, 目前想到的 2 种方法</p>
-<blockquote>
-<ol>
-<li>es6。<code>context.__fn(...arguments)</code></li>
-<li>把 arguments 转换成string，放到 eval 里面运行 <code>eval(&#39;context.__fn(&#39;+ &#39;arguments[1], arguments[2]&#39; +&#39;)&#39;)</code></li>
-</ol>
-</blockquote>
-<p>以下是第二种思路的代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, others</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="comment">// args: 'others[0], others[1], others[2], ...'</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = others.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'others['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三步，返回值"><a href="#第三步，返回值" class="headerlink" title="第三步，返回值"></a>第三步，返回值</h3><p>返回函数调用后的结果就行：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, others</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="comment">// args: 'others[0], others[1], others[2], ...'</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = others.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'others['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="更进一步，严格模式下的-this"><a href="#更进一步，严格模式下的-this" class="headerlink" title="更进一步，严格模式下的 this"></a>更进一步，严格模式下的 this</h3><p>我们之前有提到：第一个参数，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，而其他原始值则会被相应的包装对象（wrapper object）所替代</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, others</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> argsArray === <span class="string">'undefined'</span> || argsArray === <span class="literal">null</span>) &#123;</span><br><span class="line">        context = <span class="built_in">window</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// context 是一个 object</span></span><br><span class="line">    context = <span class="keyword">new</span> <span class="built_in">Object</span>(context)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = others.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'others['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="再进一步，确保-fn-不存在"><a href="#再进一步，确保-fn-不存在" class="headerlink" title="再进一步，确保 __fn 不存在"></a>再进一步，确保 __fn 不存在</h3><p>我们之前的代码都是建立在 <code>__fn</code> 不存在的情况下，那么万一存在呢？因此我们接下来就要找一个 <code>context</code> 中没有存在过的属性。<br>🤔我们很快可以想到 ES6 的 symbol。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 像这样</span></span><br><span class="line"><span class="keyword">var</span> __fn = <span class="keyword">new</span> <span class="built_in">Symbol</span>()</span><br><span class="line">context[__fn] = <span class="keyword">this</span></span><br></pre></td></tr></table></figure>
-<p>🤔如果不用 ES6，那么另一种方法，是根据 <a href="https://juejin.im/post/5bf6c79bf265da6142738b29#heading-4">这篇文章</a>中提到的，自己用 Math.random() 模拟实现独一无二的 key。面试时可以直接用生成时间戳即可。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成 UUID 通用唯一识别码</span></span><br><span class="line"><span class="comment">// 大概生成 这样一串 '18efca2d-6e25-42bf-a636-30b8f9f2de09'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateUUID</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i, random;</span><br><span class="line">    <span class="keyword">var</span> uuid = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        random = <span class="built_in">Math</span>.random() * <span class="number">16</span> | <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (i === <span class="number">8</span> || i === <span class="number">12</span> || i === <span class="number">16</span> || i === <span class="number">20</span>) &#123;</span><br><span class="line">            uuid += <span class="string">'-'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        uuid += (i === <span class="number">12</span> ? <span class="number">4</span> : (i === <span class="number">16</span> ? (random &amp; <span class="number">3</span> | <span class="number">8</span>) : random))</span><br><span class="line">            .toString(<span class="number">16</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> uuid;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 简单实现</span></span><br><span class="line"><span class="comment">// '__' + new Date().getTime();</span></span><br></pre></td></tr></table></figure>
-<p>如果这个key万一这对象中还是有，为了保险起见，可以做一次缓存操作(就是先把之前的值保存起来)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 像这样</span></span><br><span class="line"><span class="keyword">var</span> originalvalue = context.__fn</span><br><span class="line"><span class="keyword">var</span> hasOriginalValue = context.hasOwnProperty(<span class="string">'__fn'</span>)</span><br><span class="line">context.__fn = <span class="keyword">this</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(hasOriginalValue)&#123;</span><br><span class="line">    context.__fn = originalvalue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
 
 
-<h1 id="call"><a href="#call" class="headerlink" title="call"></a>call</h1><ul>
-<li><p>和 apply 的作用是一样的，只是 <code>call()</code> 方法接受的是一个参数列表，而 <code>apply()</code> 方法接受的是一个包含多个参数的数组。</p>
-</li>
-<li><p>例如 <code>func.apply(obj, [1,2])</code> 相当于 <code>func.call(obj, 1, 2)</code></p>
-</li>
-</ul>
-<h2 id="实现一个-call"><a href="#实现一个-call" class="headerlink" title="实现一个 call"></a>实现一个 call</h2><p>思路和 apply 一样。唯一区别就在于参数形式。我们按照 call 的要求来处理参数就可以了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// context 就是需要绑定的对象，相当于上面的 o</span></span><br><span class="line">    <span class="comment">// this 就是调用了 apply 的函数，相当于 f</span></span><br><span class="line">    context.__fn = <span class="keyword">this</span> <span class="comment">// 假设原先没有__fn</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> args = [];</span><br><span class="line">    <span class="comment">// 我们从 arguments[1] 开始拼就好了</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(<span class="string">'arguments['</span> + i + <span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = <span class="built_in">eval</span>(<span class="string">'context.__fn('</span> + args.toString() + <span class="string">')'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> context.__fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h1><p>我们常将 bind 和以上两个方法区分开，是因为 bind 是 ECMAScript 5 中的方法，且除了将函数绑定至一个对象外还多了一些特点。</p>
-<ul>
-<li><p><strong>bind() 方法创建一个新的函数</strong>，在 bind() 被调用时，这个新函数的 this 被指定为 bind() 的第一个参数，而其余参数将作为新函数的初始参数，供调用时使用。</p>
-  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func.apply(obj, [<span class="number">1</span>,<span class="number">2</span>])</span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line">func.call(obj, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line"><span class="keyword">var</span> boundFun = func.bind(obj, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">boundFun()</span><br><span class="line"><span class="comment">// 也可以这样</span></span><br><span class="line"><span class="keyword">var</span> boundFun = func.bind(obj, <span class="number">1</span>)</span><br><span class="line">boundFun(<span class="number">2</span>)</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>绑定函数也可以使用 new 运算符构造</strong>，它会表现为目标函数已经被构建完毕了似的。提供的 this 值会被忽略，但前置参数仍会提供给模拟函数。</p>
-</li>
-</ul>
-<h2 id="实现一个-bind"><a href="#实现一个-bind" class="headerlink" title="实现一个 bind"></a>实现一个 bind</h2><p>我们还是先大致思考一下该怎么做：</p>
-<ol>
-<li>实现第一个参数的功能，改变 this 指向。这个和 apply/call 是一样的。</li>
-<li>返回值：返回一个新的函数。</li>
-<li>实现其它参数。其它参数将作为新函数的初始参数，供调用时使用。这个和 call 有些相似。</li>
-<li>使用 new 操作符时，应该忽略第一个参数</li>
-</ol>
-<p>后续的步骤我会用 apply/call 来实现bind。如果不想直接用 apply/call，也可以按照上文先实现一个 apply/call。</p>
-<h3 id="第一步，返回一个绑定了-this-的新函数"><a href="#第一步，返回一个绑定了-this-的新函数" class="headerlink" title="第一步，返回一个绑定了 this 的新函数"></a>第一步，返回一个绑定了 this 的新函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> self.apply(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="第二步，给新函数设定初始参数"><a href="#第二步，给新函数设定初始参数" class="headerlink" title="第二步，给新函数设定初始参数"></a>第二步，给新函数设定初始参数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 bind 函数从第二个参数到最后一个参数</span></span><br><span class="line">    <span class="keyword">var</span> initialArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回一个绑定好 this 的新函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 这个是调用新函数时传入的参数</span></span><br><span class="line">        <span class="keyword">var</span> boundArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        <span class="comment">// 最终的参数应该是初始参数+新函数的参数</span></span><br><span class="line">        <span class="keyword">return</span> self.apply(context, args.concat(bindArgs));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三步，作为构造函数调用时，忽略要绑定的-this"><a href="#第三步，作为构造函数调用时，忽略要绑定的-this" class="headerlink" title="第三步，作为构造函数调用时，忽略要绑定的 this"></a>第三步，作为构造函数调用时，忽略要绑定的 this</h3><p>这里的难点是怎么知道是由 new 调用的。<br>先说一下答案吧</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假如有以下函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>对于 <code>var gioia = new Person()</code> 来说<br>使用 new 时，this 会指向 gioia，并且 gioia 是 Person 的实例。<br>因此，如果 <code>this instance Person</code>，就说明是 new 调用的</p>
-</blockquote>
-<p>new 这一部分这里先不展开讲，有兴趣的可以看一下 <a href="https://github.com/mqyqingfeng/Blog/issues/13">JavaScript深入之new的模拟实现</a><br>接下来我们可以写代码了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 bind 函数从第二个参数到最后一个参数</span></span><br><span class="line">    <span class="keyword">var</span> initialArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回一个绑定好 this 的新函数</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Bound</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 这个是调用新函数时传入的参数</span></span><br><span class="line">        <span class="keyword">var</span> boundArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        <span class="comment">// 最终的参数应该是初始参数+新函数的参数</span></span><br><span class="line">        <span class="keyword">return</span> self.apply(<span class="keyword">this</span> instance Bound ? <span class="keyword">this</span> : context, args.concat(bindArgs));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Bound.prototype = <span class="keyword">this</span>.prototype</span><br><span class="line">    <span class="keyword">return</span> Bound</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
-<li><a href="https://juejin.im/post/5bf6c79bf265da6142738b29">面试官问：能否模拟实现JS的call和apply方法</a></li>
-<li><a href="https://juejin.im/post/5907eb99570c3500582ca23c">JavaScript深入之call和apply的模拟实现</a></li>
-<li><a href="https://github.com/mqyqingfeng/Blog/issues/12">JavaScript深入之bind的模拟实现</a></li>
-</ul>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/28/apply-call-bind/" rel="prev" title="apply/call/bind 一网打尽">
+      <i class="fa fa-chevron-left"></i> apply/call/bind 一网打尽
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -557,6 +431,7 @@ F --> |生成最终代码| G[output]</pre>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要思路"><span class="nav-number">2.</span> <span class="nav-text">主要思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码处理"><span class="nav-number">3.</span> <span class="nav-text">代码处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析器-babylon"><span class="nav-number">3.1.</span> <span class="nav-text">解析器 babylon</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">3.1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换器-babel-traverse"><span class="nav-number">3.2.</span> <span class="nav-text">转换器 babel-traverse</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器-babel-generator"><span class="nav-number">3.3.</span> <span class="nav-text">生成器 babel-generator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-2"><span class="nav-number">3.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-2"><span class="nav-number">3.5.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现细节"><span class="nav-number">4.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步，提取某文件的依赖"><span class="nav-number">4.1.</span> <span class="nav-text">第一步，提取某文件的依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件内容"><span class="nav-number">4.1.1.</span> <span class="nav-text">读取文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-AST"><span class="nav-number">4.1.2.</span> <span class="nav-text">生成 AST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历-AST-来试着理解这个模块依赖哪些模块"><span class="nav-number">4.1.3.</span> <span class="nav-text">遍历 AST 来试着理解这个模块依赖哪些模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为模块分配唯一标识符"><span class="nav-number">4.1.4.</span> <span class="nav-text">为模块分配唯一标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使代码支持所有浏览器"><span class="nav-number">4.1.5.</span> <span class="nav-text">使代码支持所有浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回模块信息"><span class="nav-number">4.1.6.</span> <span class="nav-text">返回模块信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步，生成依赖图"><span class="nav-number">4.2.</span> <span class="nav-text">第二步，生成依赖图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步，根据依赖图生成代码"><span class="nav-number">4.2.1.</span> <span class="nav-text">第三步，根据依赖图生成代码</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -696,6 +571,25 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '49dc4dc1fd1336f3292f',
+      clientSecret: 'c0c9c7d82f8922b8c5df35052f76ed561fa40321',
+      repo        : 'thelastto.github.io',
+      owner       : 'thelastto',
+      admin       : ['thelastto'],
+      id          : 'ada3fe95888dd8c0455baeab241f883e',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
