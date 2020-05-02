@@ -22,7 +22,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="徐漂漂">
-<meta property="og:url" content="https://thelastto.github.io/tags/%E6%89%93%E5%8C%85/index.html">
+<meta property="og:url" content="https://thelastto.github.io/tags/js/index.html">
 <meta property="og:site_name" content="徐漂漂">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="徐漂漂">
@@ -30,7 +30,7 @@
 <meta property="article:tag" content=" gioia">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://thelastto.github.io/tags/%E6%89%93%E5%8C%85/">
+<link rel="canonical" href="https://thelastto.github.io/tags/js/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>标签: 打包 | 徐漂漂</title>
+  <title>标签: js | 徐漂漂</title>
   
 
 
@@ -189,7 +189,7 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <h2 class="collection-header">打包
+        <h2 class="collection-header">js
           <small>标签</small>
         </h2>
       </div>
@@ -204,15 +204,35 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-04-30T11:37:28+08:00"
-              content="2020-04-30">
-          04-30
+              datetime="2020-05-01T21:42:57+08:00"
+              content="2020-05-01">
+          05-01
         </time>
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2020/04/30/miniwebpack/" itemprop="url">
-            <span itemprop="name">写一个简易的打包工具</span>
+          <a class="post-title-link" href="/2020/05/01/deepcopy/" itemprop="url">
+            <span itemprop="name">如何实现一个深拷贝</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-28T22:58:26+08:00"
+              content="2020-04-28">
+          04-28
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/04/28/apply-call-bind/" itemprop="url">
+            <span itemprop="name">apply/call/bind 一网打尽</span>
           </a>
       </div>
 
@@ -292,13 +312,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -416,6 +438,35 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
   
 
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '779MTEXA0ceoYjR0L8iiSIh1-gzGzoHsz',
+      appKey     : '5GldyhJDBsvBvcd0oYkDmLeC',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
 </body>
 </html>

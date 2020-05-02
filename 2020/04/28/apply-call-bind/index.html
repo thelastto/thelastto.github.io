@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"thelastto.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="首先，这三个方法是用来改变 this 指向的，接下来我们看一下它们的异同。 apply 调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.apply(A, arguments); 即 A 对象应用 B 对象的方法。 要注意的是第一个参数，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，而其他原始值则会被相应的包装对象（wrapper">
+  <meta name="description" content="首先，这三个方法是用来改变 this 指向的，接下来我们看一下它们的异同。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="apply&#x2F;call&#x2F;bind 一网打尽">
 <meta property="og:url" content="https://thelastto.github.io/2020/04/28/apply-call-bind/index.html">
 <meta property="og:site_name" content="徐漂漂">
-<meta property="og:description" content="首先，这三个方法是用来改变 this 指向的，接下来我们看一下它们的异同。 apply 调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.apply(A, arguments); 即 A 对象应用 B 对象的方法。 要注意的是第一个参数，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，而其他原始值则会被相应的包装对象（wrapper">
+<meta property="og:description" content="首先，这三个方法是用来改变 this 指向的，接下来我们看一下它们的异同。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-28T14:58:26.000Z">
-<meta property="article:modified_time" content="2020-04-29T15:39:51.788Z">
+<meta property="article:modified_time" content="2020-05-01T15:05:26.549Z">
 <meta property="article:author" content="徐漂漂">
-<meta property="article:tag" content="前端">
 <meta property="article:tag" content="this">
+<meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://thelastto.github.io/2020/04/28/apply-call-bind/">
@@ -221,10 +221,31 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-29 23:39:51" itemprop="dateModified" datetime="2020-04-29T23:39:51+08:00">2020-04-29</time>
+                <time title="修改时间：2020-05-01 23:05:26" itemprop="dateModified" datetime="2020-05-01T23:05:26+08:00">2020-05-01</time>
               </span>
 
           
+            <span id="/2020/04/28/apply-call-bind/" class="post-meta-item leancloud_visitors" data-flag-title="apply/call/bind 一网打尽" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/28/apply-call-bind/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/28/apply-call-bind/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -236,6 +257,8 @@
 
       
         <p>首先，这三个方法是用来改变 this 指向的，接下来我们看一下它们的异同。</p>
+<a id="more"></a>
+
 <h1 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h1><ul>
 <li>调用一个对象的一个方法，用另一个对象替换当前对象。例如：<code>B.apply(A, arguments)</code>; 即 A 对象应用 B 对象的方法。</li>
 <li>要注意的是第一个参数，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，而其他原始值则会被相应的包装对象（wrapper object）所替代。</li>
@@ -270,7 +293,7 @@
 
 <h3 id="再进一步，确保-fn-不存在"><a href="#再进一步，确保-fn-不存在" class="headerlink" title="再进一步，确保 __fn 不存在"></a>再进一步，确保 __fn 不存在</h3><p>我们之前的代码都是建立在 <code>__fn</code> 不存在的情况下，那么万一存在呢？因此我们接下来就要找一个 <code>context</code> 中没有存在过的属性。<br>🤔我们很快可以想到 ES6 的 symbol。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 像这样</span></span><br><span class="line"><span class="keyword">var</span> __fn = <span class="keyword">new</span> <span class="built_in">Symbol</span>()</span><br><span class="line">context[__fn] = <span class="keyword">this</span></span><br></pre></td></tr></table></figure>
-<p>🤔如果不用 ES6，那么另一种方法，是根据 <a href="https://juejin.im/post/5bf6c79bf265da6142738b29#heading-4" target="_blank" rel="noopener">这篇文章</a>中提到的，自己用 Math.random() 模拟实现独一无二的 key。面试时可以直接用生成时间戳即可。</p>
+<p>🤔如果不用 ES6，那么另一种方法，是根据 <a href="https://juejin.im/post/5bf6c79bf265da6142738b29#heading-4">这篇文章</a>中提到的，自己用 Math.random() 模拟实现独一无二的 key。面试时可以直接用生成时间戳即可。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成 UUID 通用唯一识别码</span></span><br><span class="line"><span class="comment">// 大概生成 这样一串 '18efca2d-6e25-42bf-a636-30b8f9f2de09'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateUUID</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i, random;</span><br><span class="line">    <span class="keyword">var</span> uuid = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        random = <span class="built_in">Math</span>.random() * <span class="number">16</span> | <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (i === <span class="number">8</span> || i === <span class="number">12</span> || i === <span class="number">16</span> || i === <span class="number">20</span>) &#123;</span><br><span class="line">            uuid += <span class="string">'-'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        uuid += (i === <span class="number">12</span> ? <span class="number">4</span> : (i === <span class="number">16</span> ? (random &amp; <span class="number">3</span> | <span class="number">8</span>) : random))</span><br><span class="line">            .toString(<span class="number">16</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> uuid;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 简单实现</span></span><br><span class="line"><span class="comment">// '__' + new Date().getTime();</span></span><br></pre></td></tr></table></figure>
 <p>如果这个key万一这对象中还是有，为了保险起见，可以做一次缓存操作(就是先把之前的值保存起来)</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 像这样</span></span><br><span class="line"><span class="keyword">var</span> originalvalue = context.__fn</span><br><span class="line"><span class="keyword">var</span> hasOriginalValue = context.hasOwnProperty(<span class="string">'__fn'</span>)</span><br><span class="line">context.__fn = <span class="keyword">this</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(hasOriginalValue)&#123;</span><br><span class="line">    context.__fn = originalvalue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -309,13 +332,13 @@
 <blockquote>
 <p>对于 <code>var gioia = new Person()</code> 来说<br>使用 new 时，this 会指向 gioia，并且 gioia 是 Person 的实例。<br>因此，如果 <code>this instance Person</code>，就说明是 new 调用的</p>
 </blockquote>
-<p>new 这一部分这里先不展开讲，有兴趣的可以看一下 <a href="https://github.com/mqyqingfeng/Blog/issues/13" target="_blank" rel="noopener">JavaScript深入之new的模拟实现</a><br>接下来我们可以写代码了：</p>
+<p>new 这一部分这里先不展开讲，有兴趣的可以看一下 <a href="https://github.com/mqyqingfeng/Blog/issues/13">JavaScript深入之new的模拟实现</a><br>接下来我们可以写代码了：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 bind 函数从第二个参数到最后一个参数</span></span><br><span class="line">    <span class="keyword">var</span> initialArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回一个绑定好 this 的新函数</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Bound</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 这个是调用新函数时传入的参数</span></span><br><span class="line">        <span class="keyword">var</span> boundArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        <span class="comment">// 最终的参数应该是初始参数+新函数的参数</span></span><br><span class="line">        <span class="keyword">return</span> self.apply(<span class="keyword">this</span> instance Bound ? <span class="keyword">this</span> : context, args.concat(bindArgs));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Bound.prototype = <span class="keyword">this</span>.prototype</span><br><span class="line">    <span class="keyword">return</span> Bound</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
-<li><a href="https://juejin.im/post/5bf6c79bf265da6142738b29" target="_blank" rel="noopener">面试官问：能否模拟实现JS的call和apply方法</a></li>
-<li><a href="https://juejin.im/post/5907eb99570c3500582ca23c" target="_blank" rel="noopener">JavaScript深入之call和apply的模拟实现</a></li>
-<li><a href="https://github.com/mqyqingfeng/Blog/issues/12" target="_blank" rel="noopener">JavaScript深入之bind的模拟实现</a></li>
+<li><a href="https://juejin.im/post/5bf6c79bf265da6142738b29">面试官问：能否模拟实现JS的call和apply方法</a></li>
+<li><a href="https://juejin.im/post/5907eb99570c3500582ca23c">JavaScript深入之call和apply的模拟实现</a></li>
+<li><a href="https://github.com/mqyqingfeng/Blog/issues/12">JavaScript深入之bind的模拟实现</a></li>
 </ul>
 
     </div>
@@ -326,8 +349,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
               <a href="/tags/this/" rel="tag"># this</a>
+              <a href="/tags/js/" rel="tag"># js</a>
           </div>
 
         
@@ -352,7 +375,20 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-gitalk">gitalk</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane gitalk" id="comment-gitalk">
+              <div class="comments" id="gitalk-container"></div>
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -415,13 +451,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -556,6 +594,35 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
     });
     gitalk.render('gitalk-container');
   }, window.Gitalk);
+});
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '779MTEXA0ceoYjR0L8iiSIh1-gzGzoHsz',
+      appKey     : '5GldyhJDBsvBvcd0oYkDmLeC',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
 });
 </script>
 
