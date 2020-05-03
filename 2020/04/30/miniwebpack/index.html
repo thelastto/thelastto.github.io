@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"thelastto.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。因此，我阅读了 miniwebpack 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具">
+  <meta name="description" content="1. 前言不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。因此，我阅读了 miniwebpack 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具">
 <meta property="og:type" content="article">
 <meta property="og:title" content="写一个简易的打包工具">
 <meta property="og:url" content="https://thelastto.github.io/2020/04/30/miniwebpack/index.html">
 <meta property="og:site_name" content="徐漂漂">
-<meta property="og:description" content="前言不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。因此，我阅读了 miniwebpack 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具">
+<meta property="og:description" content="1. 前言不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。因此，我阅读了 miniwebpack 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-30T03:37:28.000Z">
-<meta property="article:modified_time" content="2020-05-01T15:04:59.966Z">
+<meta property="article:modified_time" content="2020-05-03T13:11:36.636Z">
 <meta property="article:author" content="徐漂漂">
 <meta property="article:tag" content="webpack">
 <meta property="article:tag" content="打包工具">
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-01 23:04:59" itemprop="dateModified" datetime="2020-05-01T23:04:59+08:00">2020-05-01</time>
+                <time title="修改时间：2020-05-03 21:11:36" itemprop="dateModified" datetime="2020-05-03T21:11:36+08:00">2020-05-03</time>
               </span>
 
           
@@ -256,10 +256,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。<br>于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。<br>因此，我阅读了 <a href="https://github.com/ronami/minipack/blob/master/src/minipack.js">miniwebpack</a> 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具</p>
+        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h1><p>不知道有没有人和我一样，不管看了几遍文档，还是不会自己写 webpack，只能在别人写的配置上修修补补，更别提什么优化了。<br>于是我痛定思痛，决定从源头上解决这个问题！为了更好地应用 webpack，我们应该了解它背后的工作原理。<br>因此，我阅读了 <a href="https://github.com/ronami/minipack/blob/master/src/minipack.js">miniwebpack</a> 这个仓库。这个仓库实现了一个最简单的打包工具。接下来我会按照我的理解来解释一下怎么实现一个简单的打包工具</p>
 <a id="more"></a>
 
-<h1 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h1><ol>
+<h1 id="2-主要思路"><a href="#2-主要思路" class="headerlink" title="2. 主要思路"></a>2. 主要思路</h1><ol>
 <li>代码处理。我们平常写代码的时候，用的可能是ES6、ES7等高版本的语法，我们需要将它们转换成浏览器能运行的语法</li>
 <li>打包。需要根据一个 entry 来输出一个 output，我们通过维护一个依赖关系图来解决这个问题</li>
 </ol>
@@ -272,7 +272,7 @@ D --> E
 E --> F[依赖关系图]
 F --> |生成最终代码| G[output]</pre>
 
-<h1 id="代码处理"><a href="#代码处理" class="headerlink" title="代码处理"></a>代码处理</h1><ol>
+<h1 id="3-代码处理"><a href="#3-代码处理" class="headerlink" title="3. 代码处理"></a>3. 代码处理</h1><ol>
 <li>解析（parse）。将源代码变成AST。</li>
 <li>转换（transform）。操作AST，这也是我们可以操作的部分，去改变代码。</li>
 <li>生成（generate）。将更改后的AST，再变回代码。  <blockquote>
@@ -281,22 +281,22 @@ F --> |生成最终代码| G[output]</pre>
 </li>
 </ol>
 <p>下面我将介绍一些这个过程中需要用到的工具。</p>
-<h2 id="解析器-babylon"><a href="#解析器-babylon" class="headerlink" title="解析器 babylon"></a>解析器 babylon</h2><p>用来将源代码转换为 AST。<br>（不了解 AST 的，可以先看看<a href="https://astexplorer.net/">在线AST转换器</a>。）</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save babylon</span><br></pre></td></tr></table></figure>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> babylon <span class="keyword">from</span> <span class="string">"babylon"</span>;</span><br><span class="line"></span><br><span class="line">babylon.parse(code, [options])</span><br></pre></td></tr></table></figure>
+<h2 id="3-1-解析器-babylon"><a href="#3-1-解析器-babylon" class="headerlink" title="3.1 解析器 babylon"></a>3.1 解析器 babylon</h2><p>用来将源代码转换为 AST。<br>（不了解 AST 的，可以先看看<a href="https://astexplorer.net/">在线AST转换器</a>。）</p>
+<h3 id="3-1-1-安装"><a href="#3-1-1-安装" class="headerlink" title="3.1.1 安装"></a>3.1.1 安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save babylon</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-2-使用"><a href="#3-1-2-使用" class="headerlink" title="3.1.2  使用"></a>3.1.2  使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> babylon <span class="keyword">from</span> <span class="string">"babylon"</span>;</span><br><span class="line"></span><br><span class="line">babylon.parse(code, [options])</span><br></pre></td></tr></table></figure>
 
-<h2 id="转换器-babel-traverse"><a href="#转换器-babel-traverse" class="headerlink" title="转换器 babel-traverse"></a>转换器 babel-traverse</h2><p>用来操作 AST</p>
-<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save babel-traverse</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-转换器-babel-traverse"><a href="#3-2-转换器-babel-traverse" class="headerlink" title="3.2 转换器 babel-traverse"></a>3.2 转换器 babel-traverse</h2><p>用来操作 AST</p>
+<h3 id="3-2-1-安装"><a href="#3-2-1-安装" class="headerlink" title="3.2.1 安装"></a>3.2.1 安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save babel-traverse</span><br></pre></td></tr></table></figure>
 
-<h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h3><p>该模块仅暴露出一个 traverse 方法。traverse 方法是一个遍历方法， path 封装了每一个节点，并且还提供容器 container ，作用域 scope 这样的字段。提供个更多关于节点的相关的信息，让我们更好的操作节点。<br>示例：  </p>
+<h3 id="3-2-2-使用"><a href="#3-2-2-使用" class="headerlink" title="3.2.2 使用"></a>3.2.2 使用</h3><p>该模块仅暴露出一个 traverse 方法。traverse 方法是一个遍历方法， path 封装了每一个节点，并且还提供容器 container ，作用域 scope 这样的字段。提供个更多关于节点的相关的信息，让我们更好的操作节点。<br>示例：  </p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="keyword">import</span> traverse <span class="keyword">from</span> <span class="string">"babel-traverse"</span>;</span><br><span class="line"></span><br><span class="line">traverse(ast, &#123;</span><br><span class="line">  enter(path) &#123;</span><br><span class="line">    <span class="keyword">if</span> (path.node.type === <span class="string">"Identifier"</span></span><br><span class="line">      &amp;&amp; path.node.name === <span class="string">'text'</span>) &#123;</span><br><span class="line">      path.node.name = <span class="string">'alteredText'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<h2 id="生成器-babel-generator"><a href="#生成器-babel-generator" class="headerlink" title="生成器 babel-generator"></a>生成器 babel-generator</h2><p>可以根据 AST 生成代码</p>
-<h2 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save babel-generator</span><br></pre></td></tr></table></figure>
+<h2 id="3-3-生成器-babel-generator"><a href="#3-3-生成器-babel-generator" class="headerlink" title="3.3 生成器 babel-generator"></a>3.3 生成器 babel-generator</h2><p>可以根据 AST 生成代码</p>
+<h3 id="3-3-1-安装"><a href="#3-3-1-安装" class="headerlink" title="3.3.1 安装"></a>3.3.1 安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save babel-generator</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> generate <span class="keyword">from</span> <span class="string">"babel-generator"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> genCode = generate(ast, &#123;&#125;, code);</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-2-使用"><a href="#3-3-2-使用" class="headerlink" title="3.3.2 使用"></a>3.3.2 使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> generate <span class="keyword">from</span> <span class="string">"babel-generator"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> genCode = generate(ast, &#123;&#125;, code);</span><br></pre></td></tr></table></figure>
 
-<h1 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h1><h2 id="第一步，提取某文件的依赖"><a href="#第一步，提取某文件的依赖" class="headerlink" title="第一步，提取某文件的依赖"></a>第一步，提取某文件的依赖</h2><p>最开始我们提到，需要构建一个依赖关系图。那么我们先从第一步开始，实现根据某个文件（输入绝对路径）提取依赖。大致可以分成以下几步：</p>
+<h1 id="4-实现细节"><a href="#4-实现细节" class="headerlink" title="4. 实现细节"></a>4. 实现细节</h1><h2 id="4-1-第一步，提取某文件的依赖"><a href="#4-1-第一步，提取某文件的依赖" class="headerlink" title="4.1 第一步，提取某文件的依赖"></a>4.1 第一步，提取某文件的依赖</h2><p>最开始我们提到，需要构建一个依赖关系图。那么我们先从第一步开始，实现根据某个文件（输入绝对路径）提取依赖。大致可以分成以下几步：</p>
 <ol>
 <li>读取文件内容</li>
 <li>生成 AST</li>
@@ -304,19 +304,19 @@ F --> |生成最终代码| G[output]</pre>
 <li>为该模块分配唯一标识符</li>
 <li>使代码支持所有浏览器</li>
 </ol>
-<h3 id="读取文件内容"><a href="#读取文件内容" class="headerlink" title="读取文件内容"></a>读取文件内容</h3><p>我们用 node.js 的 <code>fs</code> 模块就可以</p>
+<h3 id="4-1-1-读取文件内容"><a href="#4-1-1-读取文件内容" class="headerlink" title="4.1.1 读取文件内容"></a>4.1.1 读取文件内容</h3><p>我们用 node.js 的 <code>fs</code> 模块就可以</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> content = fs.readFileSync(filename, <span class="string">'utf-8'</span>);</span><br></pre></td></tr></table></figure>
 
-<h3 id="生成-AST"><a href="#生成-AST" class="headerlink" title="生成 AST"></a>生成 AST</h3><p>用到我们之前提到的 babylon</p>
+<h3 id="4-1-2-生成-AST"><a href="#4-1-2-生成-AST" class="headerlink" title="4.1.2 生成 AST"></a>4.1.2 生成 AST</h3><p>用到我们之前提到的 babylon</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ast = babylon.parse(content, &#123;</span><br><span class="line">  sourceType: <span class="string">'module'</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<h3 id="遍历-AST-来试着理解这个模块依赖哪些模块"><a href="#遍历-AST-来试着理解这个模块依赖哪些模块" class="headerlink" title="遍历 AST 来试着理解这个模块依赖哪些模块"></a>遍历 AST 来试着理解这个模块依赖哪些模块</h3><p>这里我们需要操作 AST，所以用到 babel-traverse</p>
+<h3 id="4-1-3-遍历-AST-来试着理解这个模块依赖哪些模块"><a href="#4-1-3-遍历-AST-来试着理解这个模块依赖哪些模块" class="headerlink" title="4.1.3 遍历 AST 来试着理解这个模块依赖哪些模块"></a>4.1.3 遍历 AST 来试着理解这个模块依赖哪些模块</h3><p>这里我们需要操作 AST，所以用到 babel-traverse</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dependencies = [];</span><br><span class="line"><span class="comment">// 要做到这一点,我们检查`ast`中的每个 `import` 声明.</span></span><br><span class="line">traverse(ast, &#123;</span><br><span class="line"><span class="comment">// `Ecmascript`模块相当简单,因为它们是静态的. 这意味着你不能`import`一个变量,</span></span><br><span class="line"><span class="comment">// 或者有条件地`import`另一个模块. </span></span><br><span class="line"><span class="comment">// 每次我们看到`import`声明时,我们都可以将其数值视为`依赖性`.</span></span><br><span class="line">  ImportDeclaration: <span class="function">(<span class="params">&#123;node&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    dependencies.push(node.source.value);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<h3 id="为模块分配唯一标识符"><a href="#为模块分配唯一标识符" class="headerlink" title="为模块分配唯一标识符"></a>为模块分配唯一标识符</h3><p>我们简单地用 id 表示</p>
+<h3 id="4-1-4-为模块分配唯一标识符"><a href="#4-1-4-为模块分配唯一标识符" class="headerlink" title="4.1.4 为模块分配唯一标识符"></a>4.1.4 为模块分配唯一标识符</h3><p>我们简单地用 id 表示</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 递增简单计数器</span><br><span class="line">const id &#x3D; ID++;</span><br></pre></td></tr></table></figure>
 
-<h3 id="使代码支持所有浏览器"><a href="#使代码支持所有浏览器" class="headerlink" title="使代码支持所有浏览器"></a>使代码支持所有浏览器</h3><p>使用 <a href="https://www.babeljs.cn/docs/">babel</a></p>
+<h3 id="4-1-5-使代码支持所有浏览器"><a href="#4-1-5-使代码支持所有浏览器" class="headerlink" title="4.1.5 使代码支持所有浏览器"></a>4.1.5 使代码支持所有浏览器</h3><p>使用 <a href="https://www.babeljs.cn/docs/">babel</a></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;transformFromAst&#125; = <span class="built_in">require</span>(<span class="string">'babel-core'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 该`presets`选项是一组规则,告诉`babel`如何传输我们的代码. </span></span><br><span class="line"><span class="comment">// 我们用`babel-preset-env``将我们的代码转换为浏览器可以运行的东西. </span></span><br><span class="line"><span class="keyword">const</span> &#123;code&#125; = transformFromAst(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">  presets: [<span class="string">'env'</span>],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>那么 code 到底长什么样呢</p>
 <blockquote>
@@ -338,7 +338,7 @@ F --> |生成最终代码| G[output]</pre>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// message.js</span></span><br><span class="line"><span class="meta">"use strict"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加上 ESModule: true 的标识</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</span><br><span class="line">  value: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> _name = <span class="built_in">require</span>(<span class="string">"./name.js"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把所有输出都赋值到 exports 对象的属性上</span></span><br><span class="line">exports.default = <span class="string">"hello "</span> + _name.name + <span class="string">"!"</span>;</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="返回模块信息"><a href="#返回模块信息" class="headerlink" title="返回模块信息"></a>返回模块信息</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">  id,</span><br><span class="line">  filename,</span><br><span class="line">  dependencies,</span><br><span class="line">  code,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="4-1-6-返回模块信息"><a href="#4-1-6-返回模块信息" class="headerlink" title="4.1.6 返回模块信息"></a>4.1.6 返回模块信息</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">  id,</span><br><span class="line">  filename,</span><br><span class="line">  dependencies,</span><br><span class="line">  code,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>以上，我们就处理好了一个模块。包含着以下 4 项信息  </p>
 <ul>
@@ -347,7 +347,7 @@ F --> |生成最终代码| G[output]</pre>
 <li>该模块的依赖。保存着的是依赖们的相对路径</li>
 <li>该模块内部代码（浏览器可运行）</li>
 </ul>
-<h2 id="第二步，生成依赖图"><a href="#第二步，生成依赖图" class="headerlink" title="第二步，生成依赖图"></a>第二步，生成依赖图</h2><p>通过第一步，我们已经能生成某个模块的依赖了。接下来，我们就可以顺藤摸瓜，从入口文件开始，生成入口文件的依赖，再生成入口文件的依赖的依赖，再生成入口文件的依赖的依赖依…（禁止套娃），直到所有模块处理完毕</p>
+<h2 id="4-2-第二步，生成依赖图"><a href="#4-2-第二步，生成依赖图" class="headerlink" title="4.2 第二步，生成依赖图"></a>4.2 第二步，生成依赖图</h2><p>通过第一步，我们已经能生成某个模块的依赖了。接下来，我们就可以顺藤摸瓜，从入口文件开始，生成入口文件的依赖，再生成入口文件的依赖的依赖，再生成入口文件的依赖的依赖依…（禁止套娃），直到所有模块处理完毕</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// entry 为入口文件的路径</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createGraph</span>(<span class="params">entry</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// createAsset 是我们在【第一步，提取某文件的依赖】中实现的函数</span></span><br><span class="line">  <span class="comment">// mainAsset 就是入口模块的信息了</span></span><br><span class="line">  <span class="keyword">const</span> mainAsset = createAsset(entry);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用一个队列，刚开始只有入口模块</span></span><br><span class="line">  <span class="keyword">const</span> queue = [mainAsset];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> asset <span class="keyword">of</span> queue) &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// mapping 用来将【依赖的相对路径】映射到【该依赖的模块 id】</span></span><br><span class="line">    asset.mapping = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个模块所在的目录. </span></span><br><span class="line">    <span class="keyword">const</span> dirname = path.dirname(asset.filename);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历每一个依赖。</span></span><br><span class="line">    asset.dependencies.forEach(<span class="function"><span class="params">relativePath</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 得到依赖的绝对路径</span></span><br><span class="line">      <span class="keyword">const</span> absolutePath = path.join(dirname, relativePath);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 得到 child 的模块信息</span></span><br><span class="line">      <span class="keyword">const</span> child = createAsset(absolutePath);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 将【依赖的相对路径】映射到【该依赖的模块 id】</span></span><br><span class="line">      <span class="comment">// 因为如果不做映射。最终打包到一个文件后，编码时的相对路径就不管用了。我们就没法知道像 require('./child') 这种代码到底应该加载哪一个模块</span></span><br><span class="line">      asset.mapping[relativePath] = child.id;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 把这个子模块也放进队列里面</span></span><br><span class="line">      queue.push(child);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 到这一步,队列 就是一个包含目标应用中 每个模块 的数组</span></span><br><span class="line"><span class="comment">// 实际上这个就是我们最终的依赖关系图了</span></span><br><span class="line">  <span class="keyword">return</span> queue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>对于以下文件</p>
@@ -357,7 +357,7 @@ F --> |生成最终代码| G[output]</pre>
 <p>我们处理后的依赖关系图应该是这样的</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">    id: <span class="number">0</span>,</span><br><span class="line">    filename: <span class="string">'./example/entry.js'</span>,</span><br><span class="line">    dependencies: [<span class="string">'./message.js'</span>],</span><br><span class="line">    code: ,<span class="comment">// 略</span></span><br><span class="line">    mapping: &#123;</span><br><span class="line">        <span class="string">'./message.js'</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">    filename: <span class="string">'./example/message.js'</span>,</span><br><span class="line">    dependencies: [<span class="string">'./name.js'</span>],</span><br><span class="line">    code: ,<span class="comment">// 略</span></span><br><span class="line">    mapping: &#123;</span><br><span class="line">        <span class="string">'./name.js'</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    id: <span class="number">2</span>,</span><br><span class="line">    filename: <span class="string">'./example/name.js'</span>,</span><br><span class="line">    dependencies: [],</span><br><span class="line">    code: ,<span class="comment">// 略</span></span><br><span class="line">    mapping: &#123;&#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
 
-<h3 id="第三步，根据依赖图生成代码"><a href="#第三步，根据依赖图生成代码" class="headerlink" title="第三步，根据依赖图生成代码"></a>第三步，根据依赖图生成代码</h3><p>目前，我们已经有了依赖图</p>
+<h2 id="4-3-第三步，根据依赖图生成代码"><a href="#4-3-第三步，根据依赖图生成代码" class="headerlink" title="4.3 第三步，根据依赖图生成代码"></a>4.3 第三步，根据依赖图生成代码</h2><p>目前，我们已经有了依赖图</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">graph: Module[]</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Module &#123;</span><br><span class="line">  id: <span class="built_in">number</span> <span class="comment">// 模块id；在【提取某文件的依赖】这一步中我们使用的是一个递增的 id</span></span><br><span class="line">  filename: <span class="built_in">string</span> </span><br><span class="line">  dependencies: Module[]</span><br><span class="line">  code: <span class="built_in">string</span> <span class="comment">// 该模块的代码（经过转换的，能在浏览器中运行） </span></span><br><span class="line">  mapping: Record&lt;<span class="built_in">string</span>, <span class="built_in">number</span>&gt; <span class="comment">// 将依赖的相对路径转换成id。是我们在【生成依赖图】这一步所做的工作</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string">既然已经到了这一步了，就说明我们得处理一下 `</span>code<span class="string">` 了。在【使代码支持所有浏览器】这一步中，我们已经知道了，`</span>code<span class="string">` 是符合 CommonJS 规范的。但CommonJS 中有以下几个东西，是浏览器中没有的：  </span></span><br><span class="line"><span class="string">- require </span></span><br><span class="line"><span class="string">- module </span></span><br><span class="line"><span class="string">- exports  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">那么接下来就是我们自己实现这3个东西！</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">首先把咱目前的模块信息整合一下：</span></span><br><span class="line"><span class="string">- mapping 是肯定要的。因为我们模块的被转换后会通过相对路径来调用 require() ，而我们需要知道对应去加载哪个模块  </span></span><br><span class="line"><span class="string">- code 需要稍微改一下。每个模块的作用域应该是独立的。所以我们改成这样：</span></span><br><span class="line"><span class="string">  `</span><span class="string">``</span>javascript</span><br><span class="line">  <span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">module</span>, exports</span>) </span>&#123; </span><br><span class="line">    &#123;code&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <p>最终把所有这样的模块放在 modules 中，大概是这样：</p>
@@ -409,15 +409,15 @@ F --> |生成最终代码| G[output]</pre>
           
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-valine">valine</a></li>
             <li class="tab"><a href="#comment-gitalk">gitalk</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane valine" id="comment-valine">
-              <div class="comments" id="valine-comments"></div>
-            </div>
             <div class="tab-pane gitalk" id="comment-gitalk">
               <div class="comments" id="gitalk-container"></div>
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
             </div>
         </div>
       </div>
@@ -467,7 +467,7 @@ F --> |生成最终代码| G[output]</pre>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要思路"><span class="nav-number">2.</span> <span class="nav-text">主要思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码处理"><span class="nav-number">3.</span> <span class="nav-text">代码处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析器-babylon"><span class="nav-number">3.1.</span> <span class="nav-text">解析器 babylon</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">3.1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换器-babel-traverse"><span class="nav-number">3.2.</span> <span class="nav-text">转换器 babel-traverse</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器-babel-generator"><span class="nav-number">3.3.</span> <span class="nav-text">生成器 babel-generator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-2"><span class="nav-number">3.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-2"><span class="nav-number">3.5.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现细节"><span class="nav-number">4.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步，提取某文件的依赖"><span class="nav-number">4.1.</span> <span class="nav-text">第一步，提取某文件的依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件内容"><span class="nav-number">4.1.1.</span> <span class="nav-text">读取文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-AST"><span class="nav-number">4.1.2.</span> <span class="nav-text">生成 AST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历-AST-来试着理解这个模块依赖哪些模块"><span class="nav-number">4.1.3.</span> <span class="nav-text">遍历 AST 来试着理解这个模块依赖哪些模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为模块分配唯一标识符"><span class="nav-number">4.1.4.</span> <span class="nav-text">为模块分配唯一标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使代码支持所有浏览器"><span class="nav-number">4.1.5.</span> <span class="nav-text">使代码支持所有浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回模块信息"><span class="nav-number">4.1.6.</span> <span class="nav-text">返回模块信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步，生成依赖图"><span class="nav-number">4.2.</span> <span class="nav-text">第二步，生成依赖图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步，根据依赖图生成代码"><span class="nav-number">4.2.1.</span> <span class="nav-text">第三步，根据依赖图生成代码</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-前言"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-主要思路"><span class="nav-text">2. 主要思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-代码处理"><span class="nav-text">3. 代码处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-解析器-babylon"><span class="nav-text">3.1 解析器 babylon</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-安装"><span class="nav-text">3.1.1 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-使用"><span class="nav-text">3.1.2  使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-转换器-babel-traverse"><span class="nav-text">3.2 转换器 babel-traverse</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-安装"><span class="nav-text">3.2.1 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-使用"><span class="nav-text">3.2.2 使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-生成器-babel-generator"><span class="nav-text">3.3 生成器 babel-generator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-安装"><span class="nav-text">3.3.1 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-使用"><span class="nav-text">3.3.2 使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-实现细节"><span class="nav-text">4. 实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-第一步，提取某文件的依赖"><span class="nav-text">4.1 第一步，提取某文件的依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-读取文件内容"><span class="nav-text">4.1.1 读取文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-生成-AST"><span class="nav-text">4.1.2 生成 AST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-遍历-AST-来试着理解这个模块依赖哪些模块"><span class="nav-text">4.1.3 遍历 AST 来试着理解这个模块依赖哪些模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-4-为模块分配唯一标识符"><span class="nav-text">4.1.4 为模块分配唯一标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-5-使代码支持所有浏览器"><span class="nav-text">4.1.5 使代码支持所有浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-6-返回模块信息"><span class="nav-text">4.1.6 返回模块信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-第二步，生成依赖图"><span class="nav-text">4.2 第二步，生成依赖图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-第三步，根据依赖图生成代码"><span class="nav-text">4.3 第三步，根据依赖图生成代码</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -609,6 +609,26 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '49dc4dc1fd1336f3292f',
+      clientSecret: 'c0c9c7d82f8922b8c5df35052f76ed561fa40321',
+      repo        : 'thelastto.github.io',
+      owner       : 'thelastto',
+      admin       : ['thelastto'],
+      id          : 'ada3fe95888dd8c0455baeab241f883e',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
 
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
@@ -635,26 +655,6 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       serverURLs : ''
     });
   }, window.Valine);
-});
-</script>
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : '49dc4dc1fd1336f3292f',
-      clientSecret: 'c0c9c7d82f8922b8c5df35052f76ed561fa40321',
-      repo        : 'thelastto.github.io',
-      owner       : 'thelastto',
-      admin       : ['thelastto'],
-      id          : 'ada3fe95888dd8c0455baeab241f883e',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
 });
 </script>
 
