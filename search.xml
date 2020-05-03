@@ -162,13 +162,7 @@ F --> |生成最终代码| G[output]</pre>
 <blockquote>
 <ol>
 <li>首先，babel 能将 es6 等更新的代码转成浏览器能执行的低版本代码，这个之前一直在强调的</li>
-<li>其次，对于模块的转换。Babel 对 ES6 模块转码就是转换成 CommonJS 规范  <blockquote>
-<ul>
-<li>Babel 对于模块输出的转换，就是把所有输出都赋值到 exports 对象的属性上，并加上 ESModule: true 的标识。表示这个模块是由 ESModule 转换来的 CommonJS 输出</li>
-<li>输入就是 require</li>
-</ul>
-</blockquote>
-</li>
+<li>其次，对于模块的转换。Babel 对 ES6 模块转码就是转换成 CommonJS 规范<br>Babel 对于模块输出的转换，就是把所有输出都赋值到 exports 对象的属性上，并加上 ESModule: true 的标识。表示这个模块是由 ESModule 转换来的 CommonJS 输出<br>输入就是 require</li>
 </ol>
 </blockquote>
 <p>例如，对于以下文件</p>
