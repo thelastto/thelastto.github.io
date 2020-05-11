@@ -200,7 +200,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/05/prototype/" class="post-title-link" itemprop="url">讲讲我理解的原型</a>
+            <a href="/2020/05/05/prototype/" class="post-title-link" itemprop="url">WIP:讲讲我理解的原型</a>
         </h2>
 
         <div class="post-meta">
@@ -217,11 +217,11 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-07 09:58:53" itemprop="dateModified" datetime="2020-05-07T09:58:53+08:00">2020-05-07</time>
+                <time title="修改时间：2020-05-11 22:46:12" itemprop="dateModified" datetime="2020-05-11T22:46:12+08:00">2020-05-11</time>
               </span>
 
           
-            <span id="/2020/05/05/prototype/" class="post-meta-item leancloud_visitors" data-flag-title="讲讲我理解的原型" title="阅读次数">
+            <span id="/2020/05/05/prototype/" class="post-meta-item leancloud_visitors" data-flag-title="WIP:讲讲我理解的原型" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -240,55 +240,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="1-原型"><a href="#1-原型" class="headerlink" title="1. 原型"></a>1. 原型</h1><p>我们应该相对独立地来看原型这个概念。<br>很多人会把原型看得很复杂，实际上它只是【能给其它对象提供共享属性的对象】。<br>好比郭德纲和郭麒麟。首先这俩都是人（对象），其次郭德纲给郭麒麟提供了基因啊，相声啊等“共享属性”，所以郭德纲是一个“原型”。  </p>
-<h2 id="1-1-隐式引用"><a href="#1-1-隐式引用" class="headerlink" title="1.1 隐式引用"></a>1.1 隐式引用</h2><ul>
-<li>在许多浏览器中，我们可以通过对象的 <code>__proto__</code>属性来访问该对象的原型。<br>（关于 <code>__proto__</code> 的历史问题我不展开讲了，有兴趣的可以看看第一篇参考文章。）<br>还是用郭德纲郭麒麟来举例子。我们假装郭德纲的儿子们关系网里都有名字叫<code>__爸爸__</code>的人，指向的是郭德纲。那我们访问 <code>郭麒麟.__爸爸__</code>不就可以找到郭德纲了嘛？！  </li>
-<li>我们可以通过设置对象的 <code>__proto__</code> 来直接设置原型<br>这就好像郭德纲现在又生了个儿子，他需要在户口本上加上一些信息： <code>新儿子.__爸爸__ = 郭德纲</code></li>
-</ul>
-<h1 id="2-继承"><a href="#2-继承" class="headerlink" title="2. 继承"></a>2. 继承</h1><h2 id="2-1-原型继承"><a href="#2-1-原型继承" class="headerlink" title="2.1 原型继承"></a>2.1 原型继承</h2><h3 id="2-1-1-显式继承"><a href="#2-1-1-显式继承" class="headerlink" title="2.1.1 显式继承"></a>2.1.1 显式继承</h3><p>意味着我们需要手动给对象设置原型来继承</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Object.create 新建一个以给定对象为原型的对象</span></span><br><span class="line"><span class="keyword">let</span> gql = <span class="built_in">Object</span>.create(gdg)</span><br><span class="line">gql.name = <span class="string">'郭麒麟'</span></span><br><span class="line">gql.age = <span class="number">24</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-1-2-隐式继承"><a href="#2-1-2-隐式继承" class="headerlink" title="2.1.2 隐式继承"></a>2.1.2 隐式继承</h3><p>显示继承要求我们有 2 个对象，一个对象作为另一个对象的原型。<br>但隐式继承不用手动新建一个原型对象，只需通过“构造函数”就能快速实现继承。因为<strong>每个函数，都默认有一个原型</strong>，可以通过 <code>function.prototype</code> 访问到，当我们使用 <code>new</code> 调用构造函数时，就默认继承了这个原型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span> (<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">    <span class="keyword">this</span>.age = age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> gdg = <span class="keyword">new</span> Person(<span class="string">'郭德纲'</span>, <span class="number">50</span>) <span class="comment">// 自动继承了Person.prototype</span></span><br></pre></td></tr></table></figure>
-
-<p>我记得我有很长一段时间搞不清楚 <code>prototype</code> 和 <code>__proto__</code>。实际上继承本质上是两个对象之间的关系，中间可以没有构造函数。我们加上 <code>Person</code> 这个函数，但最终我们要用到的是 <code>Person.prototype</code> 这个对象。<br>这就好像 <code>郭麒麟.__爸爸__ = 郭麒麟妈妈.__老公__</code>（<code>gql.__proto__ = GQLMM.prototype</code>）<br>因此，隐式继承就是妈妈生了一个孩子，<code>生的孩子.__爸爸__ = 妈妈.__老公__</code>；显示继承有点像直接抱养一个孩子，直接把<code>儿子.__爸爸__</code>改掉就行了  </p>
-<p>另外，每个函数的 <code>prototype</code> 也是一个对象，既然是对象就有<code>__proto__</code>，这个属性是默认指向 <code>Object.prototype</code> 的。也就是说 <code>func.prototype.__proto__ === Object.prototype</code>。  </p>
-<h1 id="3-Object-prototype"><a href="#3-Object-prototype" class="headerlink" title="3. Object.prototype"></a>3. <code>Object.prototype</code></h1><p>这是一个十分特殊的对象</p>
-<ol>
-<li>我们之前说过每个函数都默认有原型的，那么这个就是 <code>Object</code> 函数的原型</li>
-<li>这个是 JS 引擎在最开始定义的一个对象。我们可以把它想像成女娲，那么自然   <ol>
-<li>女娲是没有原型的，即 <code>Object.prototype.__proto__ === null</code></li>
-<li>所有没爸没妈的孩子都当作女娲的孩子。 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普普通通一对象</span></span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'没爸没妈'</span> &#125;</span><br><span class="line">a.__proto__ === <span class="built_in">Object</span>.prototype <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="4-原型链"><a href="#4-原型链" class="headerlink" title="4. 原型链"></a>4. 原型链</h1><p>我们已经知道了，每个对象在【给其它对象提供共享属性】时就是原型的，且两者之前是通过 <code>__proto__</code> 来隐式地关联起来的。那么假设有 <code>A.__proto__ = B</code>，B 虽然是 A 的原型，但它自身也可以有原型，也就是 <code>B.__proto__ = C</code>。如下图</p>
-<pre class="mermaid">graph LR
-A[A] --> |__proto__|B[B]
-B --> |__proto__|C[C]
-C --> |__proto__|D[...]
-D --> |__proto__|E[Object.prototype]
-E --> |__proto__|F[null]</pre>
-<p>这条链一直下去的话，最终会指向 <code>Object.prototype</code></p>
-<h2 id="属性查找"><a href="#属性查找" class="headerlink" title="属性查找"></a>属性查找</h2><p>问：假设“报菜名”是老郭家的独门绝技，现在郭麒麟想学，该怎么办？<br>答：1. 郭麒麟已经会了，那就自己再复习下；2.郭麒麟不会，那问他爸；3. 他爸也不会，那问他爷爷</p>
-<p>同理。当我们访问对象的属性时，也会沿着原型链一直查找</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果你看完了文章还是一团乱麻，那么我自己总结了一些要点帮助记忆和理解，可以看看有没有效果  </p>
-<ol>
-<li>所有对象都有 <code>__proto__</code></li>
-<li>所有函数都默认有 <code>prototype</code></li>
-<li>函数也是对象，所以有 <code>__proto__</code></li>
-<li>所有函数都继承自 <code>Function</code></li>
-</ol>
-<p>接下来我准备了极道题目，都懂的话应该算是掌握了！</p>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
-<li><a href="https://mp.weixin.qq.com/s/1UDILezroK5wrcK-Z5bHOg">深入理解 JavaScript 原型</a></li>
-</ul>
-
+          <h1 id="1-原型"><a href="#1-原型" class="headerlink" title="1. 原型"></a>1. 原型</h1><p>我们应该相对独立地来看原型这个概念。<br>很多人会把原型看得很复杂，实际上它只是【能给其它对象提供共享属性的对象】。<br>好比郭德纲和郭麒麟。首先这俩都是人（对象），其次郭德纲给郭麒麟提供了相声教学等“共享属性”，所以郭德纲是一个“原型”。  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/05/prototype/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
