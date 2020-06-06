@@ -264,7 +264,7 @@ F --> |生成最终代码| G[output]</pre>
       </tags>
   </entry>
   <entry>
-    <title>WIP:讲讲我理解的原型</title>
+    <title>讲讲我理解的原型</title>
     <url>/2020/05/05/prototype/</url>
     <content><![CDATA[<h1 id="1-原型"><a href="#1-原型" class="headerlink" title="1. 原型"></a>1. 原型</h1><p>我们应该相对独立地来看原型这个概念。<br>很多人会把原型看得很复杂，实际上它只是【能给其它对象提供共享属性的对象】。<br>好比郭德纲和郭麒麟。首先这俩都是人（对象），其次郭德纲给郭麒麟提供了相声教学等“共享属性”，所以郭德纲是一个“原型”。  </p>
 <a id="more"></a>
